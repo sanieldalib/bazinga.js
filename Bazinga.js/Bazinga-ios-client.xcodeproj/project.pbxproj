@@ -15,7 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		EF55448720FFB647002B289A /* Bazinga.js.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bazinga.js.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF55448720FFB647002B289A /* Bazinga-ios-client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bazinga-ios-client.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF55448A20FFB647002B289A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EF55448C20FFB647002B289A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		EF55448F20FFB647002B289A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -38,7 +38,7 @@
 		EF55447E20FFB647002B289A = {
 			isa = PBXGroup;
 			children = (
-				EF55448920FFB647002B289A /* Bazinga.js */,
+				EF55448920FFB647002B289A /* Bazinga-ios-client */,
 				EF55448820FFB647002B289A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -46,12 +46,12 @@
 		EF55448820FFB647002B289A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EF55448720FFB647002B289A /* Bazinga.js.app */,
+				EF55448720FFB647002B289A /* Bazinga-ios-client.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EF55448920FFB647002B289A /* Bazinga.js */ = {
+		EF55448920FFB647002B289A /* Bazinga-ios-client */ = {
 			isa = PBXGroup;
 			children = (
 				EF55448A20FFB647002B289A /* AppDelegate.swift */,
@@ -61,15 +61,15 @@
 				EF55449320FFB64B002B289A /* LaunchScreen.storyboard */,
 				EF55449620FFB64B002B289A /* Info.plist */,
 			);
-			path = Bazinga.js;
+			path = "Bazinga-ios-client";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EF55448620FFB647002B289A /* Bazinga.js */ = {
+		EF55448620FFB647002B289A /* Bazinga-ios-client */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EF55449920FFB64B002B289A /* Build configuration list for PBXNativeTarget "Bazinga.js" */;
+			buildConfigurationList = EF55449920FFB64B002B289A /* Build configuration list for PBXNativeTarget "Bazinga-ios-client" */;
 			buildPhases = (
 				EF55448320FFB647002B289A /* Sources */,
 				EF55448420FFB647002B289A /* Frameworks */,
@@ -79,9 +79,9 @@
 			);
 			dependencies = (
 			);
-			name = Bazinga.js;
+			name = "Bazinga-ios-client";
 			productName = Bazinga.js;
-			productReference = EF55448720FFB647002B289A /* Bazinga.js.app */;
+			productReference = EF55448720FFB647002B289A /* Bazinga-ios-client.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -99,7 +99,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EF55448220FFB647002B289A /* Build configuration list for PBXProject "Bazinga.js" */;
+			buildConfigurationList = EF55448220FFB647002B289A /* Build configuration list for PBXProject "Bazinga-ios-client" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -112,7 +112,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EF55448620FFB647002B289A /* Bazinga.js */,
+				EF55448620FFB647002B289A /* Bazinga-ios-client */,
 			);
 		};
 /* End PBXProject section */
@@ -315,7 +315,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EF55448220FFB647002B289A /* Build configuration list for PBXProject "Bazinga.js" */ = {
+		EF55448220FFB647002B289A /* Build configuration list for PBXProject "Bazinga-ios-client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EF55449720FFB64B002B289A /* Debug */,
@@ -324,7 +324,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EF55449920FFB64B002B289A /* Build configuration list for PBXNativeTarget "Bazinga.js" */ = {
+		EF55449920FFB64B002B289A /* Build configuration list for PBXNativeTarget "Bazinga-ios-client" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EF55449A20FFB64B002B289A /* Debug */,
