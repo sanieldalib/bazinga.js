@@ -1,0 +1,258 @@
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const User = mongoose.model('user');
+const Event = mongoose.model('event');
+const userModel = require('../model/user');
+const eventModel = require('../model/event');
+const refresh = require('passport-oauth2-refresh');
+const axios = require('axios');
+const { google } = require('googleapis');
+const uniqid = require('uniqid');
+
+module.exports = router => {
+	router.post('/event/get', (req, res) => {
+		const id = req.body.userid;
+		const room = req.body.room;
+		var roomCal = '';
+		var events = [];
+		switch (room) {
+			case 'Bazinga':
+				roomCal = eventModel.Bazinga;
+				break;
+			case 'BeamMeUpScotty':
+				roomCal = eventModel.BeamMeUpScotty;
+			case 'BookEmDanno':
+				roomCal = eventModel.BookEmDanno;
+			case 'DynOMite':
+				roomCal = eventModel.DynOMite;
+			case 'LegenWaitForItDary':
+				roomCal = eventModel.LegenWaitForItDary;
+			case 'LucyIAmHome':
+				roomCal = eventModel.LucyIAmHome;
+			case 'Norm':
+				roomCal = eventModel.Norm;
+			case 'TheTribeHasSpoken':
+				roomCal = eventModel.TheTribeHasSpoken;
+			case 'ExpectTheUnexpected':
+				roomCal = eventModel.ExpectTheUnexpected;
+			case 'LiveLongAndProsper':
+				roomCal = eventModel.LiveLongAndProsper;
+			case 'MarciaMarciaMarcia':
+				roomCal = eventModel.MarciaMarciaMarcia;
+			default:
+				break;
+		}
+
+		User.findOne({ googleID: id }, (err, user) => {
+			if (!user) {
+				res.send({
+					message: 'You are not an authenticated user. Please sign in.'
+				});
+				return;
+			} else {
+				refresh.requestNewAccessToken(
+					'google',
+					user.refreshToken,
+					(err, accessToken, refreshToken) => {
+						if (err) {
+							console.log(err);
+						} else {
+							console.log(accessToken);
+							axios
+								.get(
+									'https://www.googleapis.com/calendar/v3/calendars/' +
+										roomCal +
+										'/events',
+									{
+										params: {
+											access_token: accessToken
+										}
+									}
+								)
+								.then(response => {
+									response.data.items.forEach(item => {
+										events.push(item);
+									});
+									res.send({ events: events });
+									return;
+								})
+								.catch(err => {
+									console.log(err);
+								});
+						}
+					}
+				);
+			}
+		});
+	});
+
+	router.post('/event/create', (req, res) => {
+		const titleIn = req.body.title;
+		const startIn = req.body.start;
+		const endIn = req.body.end;
+		var guestsIn = req.body.guests;
+		const eventid = uniqid();
+		console.log('EventID', eventid);
+		// console.log(guestsIn);
+		// var jsonBoi = [];
+		// guestsIn.forEach(emaiil => {
+		// 	var jsonEmail = { email: emaiil };
+		// 	console.log(jsonEmail);
+		//
+		// 	jsonBoi.push(jsonEmail);
+		// });
+		//
+		// console.log(jsonBoi);
+		const roomIn = req.body.room;
+		var roomCal = '';
+		switch (roomIn) {
+			case 'Bazinga':
+				roomCal = eventModel.Bazinga;
+				break;
+			case 'BeamMeUpScotty':
+				roomCal = eventModel.BeamMeUpScotty;
+			case 'BookEmDanno':
+				roomCal = eventModel.BookEmDanno;
+			case 'DynOMite':
+				roomCal = eventModel.DynOMite;
+			case 'LegenWaitForItDary':
+				roomCal = eventModel.LegenWaitForItDary;
+			case 'LucyIAmHome':
+				roomCal = eventModel.LucyIAmHome;
+			case 'Norm':
+				roomCal = eventModel.Norm;
+			case 'TheTribeHasSpoken':
+				roomCal = eventModel.TheTribeHasSpoken;
+			case 'ExpectTheUnexpected':
+				roomCal = eventModel.ExpectTheUnexpected;
+			case 'LiveLongAndProsper':
+				roomCal = eventModel.LiveLongAndProsper;
+			case 'MarciaMarciaMarcia':
+				roomCal = eventModel.MarciaMarciaMarcia;
+			default:
+				break;
+		}
+
+		console.log(roomCal);
+		const descriptionIn = req.body.description;
+		const id = req.body.userid;
+
+		const newEvent = new Event({
+			title: titleIn,
+			start: new Date(startIn),
+			end: new Date(endIn),
+			guests: guestsIn,
+			room: roomIn,
+			description: descriptionIn,
+			owner: id
+		});
+		console.log(newEvent);
+		User.findOne({ googleID: id }, (err, user) => {
+			if (!user) {
+				res.send({
+					message: 'You are not an authenticated user. Please sign in.'
+				});
+				return;
+			} else {
+				refresh.requestNewAccessToken(
+					'google',
+					user.refreshToken,
+					(err, accessToken, refreshToken) => {
+						if (err) {
+							console.log(err);
+						} else {
+							console.log(accessToken);
+							axios
+								.post(
+									'https://www.googleapis.com/calendar/v3/calendars/' +
+										user.calendar +
+										'/events',
+									{
+										summary: titleIn,
+										location: roomIn,
+										description: descriptionIn,
+										start: {
+											dateTime: startIn
+										},
+										end: {
+											dateTime: endIn
+										},
+										attendees: guestsIn
+									},
+									{
+										headers: {
+											Authorization: 'Bearer ' + accessToken,
+											'Content-Type': 'application/json'
+										}
+									}
+								)
+								.then(response => {
+									newEvent.save(err => {
+										if (err) {
+											console.log(err);
+											res.send({ message: 'An error occurred1.' });
+										}
+									});
+									refresh.requestNewAccessToken(
+										'google',
+										'1/aqV9Ci_rHB1pDLP61n0EBqdKRBbVyw500BWMGTLjisB7VQSnc0PtoK9Xo0l3hk6B',
+										(err, accessTokenRoom, refreshToken) => {
+											if (err) {
+												console.log(err);
+											} else {
+												console.log(accessTokenRoom);
+												axios
+													.post(
+														'https://www.googleapis.com/calendar/v3/calendars/' +
+															roomCal +
+															'/events',
+														{
+															summary: titleIn,
+															location: roomIn,
+															description: descriptionIn,
+															start: {
+																dateTime: startIn
+															},
+															end: {
+																dateTime: endIn
+															},
+															attendees: guestsIn
+														},
+														{
+															headers: {
+																Authorization: 'Bearer ' + accessTokenRoom,
+																'Content-Type': 'application/json'
+															}
+														}
+													)
+													.then(response => {
+														newEvent.save(err => {
+															if (err) {
+																console.log(err);
+																res.send({ message: 'An error occurred2.' });
+															}
+														});
+														res.send({
+															message: 'Event created successfully.'
+														});
+														return;
+													})
+													.catch(err => {
+														console.log(err);
+														res.send({ message: 'An error occurred3.' });
+													});
+											}
+										}
+									);
+								})
+								.catch(err => {
+									console.log(err);
+									res.send({ message: 'An error occurred4.' });
+								});
+						}
+					}
+				);
+			}
+		});
+	});
+};
