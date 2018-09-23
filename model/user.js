@@ -12,18 +12,4 @@ const userSchema = new Schema({
 	refreshDate: Date
 });
 
-// module.exports = function getAccess(refreshToken) {
-// 	refresh.requestNewAccessToken(
-// 		'google',
-// 		refreshToken,
-// 		(err, accessToken, refreshToken) => {
-// 			if (err) {
-// 				console.log(err);
-// 			} else {
-// 				return { newAccess: accessToken, newRefresh: refreshToken };
-// 			}
-// 		}
-// 	);
-// };
-
 mongoose.model('user', userSchema);
